@@ -279,22 +279,7 @@ Connection(B3, inputBbitAdder4)
 Connection(outputSbitAdder4, S3)
 Connection(outputCbitAdder4, Co)
 
-
-inputs = []
-"""
-for a0 in [False, True]:
-    for a1 in [False, True]:
-        for a2 in [False, True]:
-            for a3 in [False, True]:
-                for b0 in [False, True]:
-                    for b1 in [False, True]:
-                        for b2 in [False, True]:
-                            for b3 in [False, True]:
-                                for c in [False, True]:
-                                    inputs.append([a0, b0, a1, b1, a2, b2, a3, b3, c])
-"""
-
-                                    
+                                
 inputs = []
 expected_S = []
 expected_Co = []
@@ -360,4 +345,102 @@ for (a3, b3, a2, b2, a1, b1, a0, b0, ci), exp_s, exp_co in zip(inputs, expected_
 four_bits_adder_1 = deepcopy(four_bits_adder)
 four_bits_adder_1.name = 'four_bits_adder_1'
 four_bits_adder_2 = deepcopy(four_bits_adder)
-four_bits_adder_
+four_bits_adder_2.name = 'four_bits_adder_2'
+eight_bits_adder = Component("8bitsAdder", 17, 9)
+
+eight_bits_adder.add_circuit(four_bits_adder_1)
+eight_bits_adder.add_circuit(four_bits_adder_2)
+
+Ae0 = eight_bits_adder.inputs[0]
+Ae1 = eight_bits_adder.inputs[1]
+Ae2 = eight_bits_adder.inputs[2]
+Ae3 = eight_bits_adder.inputs[3]
+Ae4 = eight_bits_adder.inputs[4]
+Ae5 = eight_bits_adder.inputs[5]
+Ae6 = eight_bits_adder.inputs[6]
+Ae7 = eight_bits_adder.inputs[7]
+Be0 = eight_bits_adder.inputs[8]
+Be1 = eight_bits_adder.inputs[9]
+Be2 = eight_bits_adder.inputs[10]
+Be3 = eight_bits_adder.inputs[11]
+Be4 = eight_bits_adder.inputs[12]
+Be5 = eight_bits_adder.inputs[13]
+Be6 = eight_bits_adder.inputs[14]
+Be7 = eight_bits_adder.inputs[15]
+Cei = eight_bits_adder.inputs[16]
+
+Se0 = eight_bits_adder.outputs[0]
+Se1 = eight_bits_adder.outputs[1]
+Se2 = eight_bits_adder.outputs[2]
+Se3 = eight_bits_adder.outputs[3]
+Se4 = eight_bits_adder.outputs[4]
+Se5 = eight_bits_adder.outputs[5]
+Se6 = eight_bits_adder.outputs[6]
+Se7 = eight_bits_adder.outputs[7]
+Ceo = eight_bits_adder.outputs[8]
+
+inputA0fourAdder1 = four_bits_adder_1.inputs[0]
+inputA1fourAdder1 = four_bits_adder_1.inputs[2]
+inputA2fourAdder1 = four_bits_adder_1.inputs[4]
+inputA3fourAdder1 = four_bits_adder_1.inputs[6]
+inputB0fourAdder1 = four_bits_adder_1.inputs[1]
+inputB1fourAdder1 = four_bits_adder_1.inputs[3]
+inputB2fourAdder1 = four_bits_adder_1.inputs[5]
+inputB3fourAdder1 = four_bits_adder_1.inputs[7]
+inputCifourAdder1 = four_bits_adder_1.inputs[8]
+
+outputS0fourAdder1 = four_bits_adder_1.outputs[0]
+outputS1fourAdder1 = four_bits_adder_1.outputs[1]
+outputS2fourAdder1 = four_bits_adder_1.outputs[2]
+outputS3fourAdder1 = four_bits_adder_1.outputs[3]
+outputCfourAdder1 = four_bits_adder_1.outputs[4]
+
+inputA0fourAdder2 = four_bits_adder_2.inputs[0]
+inputA1fourAdder2 = four_bits_adder_2.inputs[2]
+inputA2fourAdder2 = four_bits_adder_2.inputs[4]
+inputA3fourAdder2 = four_bits_adder_2.inputs[6]
+inputB0fourAdder2 = four_bits_adder_2.inputs[1]
+inputB1fourAdder2 = four_bits_adder_2.inputs[3]
+inputB2fourAdder2 = four_bits_adder_2.inputs[5]
+inputB3fourAdder2 = four_bits_adder_2.inputs[7]
+inputCifourAdder2 = four_bits_adder_2.inputs[8]
+
+outputS0fourAdder2 = four_bits_adder_2.outputs[0]
+outputS1fourAdder2 = four_bits_adder_2.outputs[1]
+outputS2fourAdder2 = four_bits_adder_2.outputs[2]
+outputS3fourAdder2 = four_bits_adder_2.outputs[3]
+outputCfourAdder2 = four_bits_adder_2.outputs[4]
+
+Connection(Ae0, inputA0fourAdder1)
+Connection(Ae1, inputA1fourAdder1)
+Connection(Ae2, inputA2fourAdder1)
+Connection(Ae3, inputA3fourAdder1)
+Connection(Be0, inputB0fourAdder1)
+Connection(Be1, inputB1fourAdder1)
+Connection(Be2, inputB2fourAdder1)
+Connection(Be3, inputB3fourAdder1)
+
+Connection(Cei, inputCifourAdder1)
+
+Connection(outputS0fourAdder1, Se0)
+Connection(outputS1fourAdder1, Se1)
+Connection(outputS2fourAdder1, Se2)
+Connection(outputS3fourAdder1, Se3)
+
+Connection(Ae4, inputA0fourAdder2)
+Connection(Ae5, inputA1fourAdder2)
+Connection(Ae6, inputA2fourAdder2)
+Connection(Ae7, inputA3fourAdder2)
+Connection(Be4, inputB0fourAdder2)
+Connection(Be5, inputB1fourAdder2)
+Connection(Be6, inputB2fourAdder2)
+Connection(Be7, inputB3fourAdder2)
+
+Connection(outputCfourAdder1, inputCifourAdder2)
+
+Connection(outputS0fourAdder2, Se4)
+Connection(outputS1fourAdder2, Se5)
+Connection(outputS2fourAdder2, Se6)
+Connection(outputS3fourAdder2, Se7)
+
+Connection(outputCfourAdder2, Co)
