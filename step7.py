@@ -128,14 +128,14 @@ Connection(and1.outputs[0], not1.inputs[0])
 Connection(not1.outputs[0], and2.inputs[1])
 Connection(and2.outputs[0], xor1.outputs[0])
 
-import copy
+from copy import deepcopy
 
 oneBitAdder = Component("OneBitAdder", 3, 2)
-xor2 = copy.deepcopy(xor1)
+xor2 = deepcopy(xor1)
 xor2.name = 'xor2'
 and3 = And('and3')
 and4 = And('and4') # or copy.deepcopy(and3) and rename
-or2 = Or('or2');
+or2 = Or('or2')
 # this order matters for the simulation
 oneBitAdder.add_circuit(xor1)
 oneBitAdder.add_circuit(xor2)
@@ -149,7 +149,7 @@ A = oneBitAdder.inputs[0]
 B = oneBitAdder.inputs[1]
 Ci = oneBitAdder.inputs[2]
 S = oneBitAdder.outputs[0]
-Co = oneBitAdder.inputs[1]
+Co = oneBitAdder.outputs[1]
 
 input1Xor1 = xor1.inputs[0]
 input2Xor1 = xor1.inputs[1]
@@ -192,6 +192,7 @@ for a in [False, True]:
 expected_S = [False, True, True, False, True, False, False, True]
 expected_Co = [False, False, False, True, False, True, True, True]
 
+print("\t One bit loader testing:")
 for (a, b, ci), exp_s, exp_co in zip(inputs, expected_S, expected_Co):
   A.set_state(a)
   B.set_state(b)
@@ -202,3 +203,161 @@ for (a, b, ci), exp_s, exp_co in zip(inputs, expected_S, expected_Co):
   print('{} + {} + {} = {}, {}'.format(a, b, ci, s, co))
   assert s == exp_s
   assert co == exp_co
+
+one_bit_adder_1 = deepcopy(oneBitAdder)
+one_bit_adder_1.name = 'one_bit_adder_1'
+one_bit_adder_2 = deepcopy(oneBitAdder)
+one_bit_adder_2.name = 'one_bit_adder_2'
+one_bit_adder_3 = deepcopy(oneBitAdder)
+one_bit_adder_3.name = 'one_bit_adder_3'
+one_bit_adder_4 = deepcopy(oneBitAdder)
+one_bit_adder_4.name = 'one_bit_adder_4'
+four_bits_adder = Component("4bitsAdder", 9, 5)
+
+four_bits_adder.add_circuit(one_bit_adder_1)
+four_bits_adder.add_circuit(one_bit_adder_2)
+four_bits_adder.add_circuit(one_bit_adder_3)
+four_bits_adder.add_circuit(one_bit_adder_4)
+
+A0 = four_bits_adder.inputs[0]
+B0 = four_bits_adder.inputs[1]
+A1 = four_bits_adder.inputs[2]
+B1 = four_bits_adder.inputs[3]
+A2 = four_bits_adder.inputs[4]
+B2 = four_bits_adder.inputs[5]
+A3 = four_bits_adder.inputs[6]
+B3 = four_bits_adder.inputs[7]
+Ci = four_bits_adder.inputs[8]
+S0 = four_bits_adder.outputs[0]
+S1 = four_bits_adder.outputs[1]
+S2 = four_bits_adder.outputs[2]
+S3 = four_bits_adder.outputs[3]
+Co = four_bits_adder.outputs[4]
+
+inputAbitAdder1 = one_bit_adder_1.inputs[0]
+inputBbitAdder1 = one_bit_adder_1.inputs[1] 
+inputCbitAdder1 = one_bit_adder_1.inputs[2]
+outputSbitAdder1 = one_bit_adder_1.outputs[0]
+outputCbitAdder1 = one_bit_adder_1.outputs[1]
+
+inputAbitAdder2 = one_bit_adder_2.inputs[0]
+inputBbitAdder2 = one_bit_adder_2.inputs[1] 
+inputCbitAdder2 = one_bit_adder_2.inputs[2]
+outputSbitAdder2 = one_bit_adder_2.outputs[0]
+outputCbitAdder2 = one_bit_adder_2.outputs[1]
+
+inputAbitAdder3 = one_bit_adder_3.inputs[0]
+inputBbitAdder3 = one_bit_adder_3.inputs[1] 
+inputCbitAdder3 = one_bit_adder_3.inputs[2]
+outputSbitAdder3 = one_bit_adder_3.outputs[0]
+outputCbitAdder3 = one_bit_adder_3.outputs[1]
+
+inputAbitAdder4 = one_bit_adder_4.inputs[0]
+inputBbitAdder4 = one_bit_adder_4.inputs[1] 
+inputCbitAdder4 = one_bit_adder_4.inputs[2]
+outputSbitAdder4 = one_bit_adder_4.outputs[0]
+outputCbitAdder4 = one_bit_adder_4.outputs[1]
+
+Connection(A0, inputAbitAdder1)
+Connection(B0, inputBbitAdder1)
+Connection(Ci, inputCbitAdder1)
+Connection(outputSbitAdder1, S0)
+Connection(outputCbitAdder1, inputCbitAdder2)
+
+Connection(A1, inputAbitAdder2)
+Connection(B1, inputBbitAdder2)
+Connection(outputSbitAdder2, S1)
+Connection(outputCbitAdder2, inputCbitAdder3)
+
+Connection(A2, inputAbitAdder3)
+Connection(B2, inputBbitAdder3)
+Connection(outputSbitAdder3, S2)
+Connection(outputCbitAdder3, inputCbitAdder4)
+
+Connection(A3, inputAbitAdder4)
+Connection(B3, inputBbitAdder4)
+Connection(outputSbitAdder4, S3)
+Connection(outputCbitAdder4, Co)
+
+
+inputs = []
+"""
+for a0 in [False, True]:
+    for a1 in [False, True]:
+        for a2 in [False, True]:
+            for a3 in [False, True]:
+                for b0 in [False, True]:
+                    for b1 in [False, True]:
+                        for b2 in [False, True]:
+                            for b3 in [False, True]:
+                                for c in [False, True]:
+                                    inputs.append([a0, b0, a1, b1, a2, b2, a3, b3, c])
+"""
+
+                                    
+inputs = []
+expected_S = []
+expected_Co = []
+for x in range(512):
+    n = [x//256%2, x//128%2, x//64%2, x//32%2, x//16%2, x//8%2, x//4%2, x//2%2 ,x%2]
+    tf = [True if v == 1 else False for v in n]
+    inputs.append(tf)
+    expected_S.append('caca')
+    expected_Co.append('caca')
+
+"""
+a3 = False
+b3 = False
+a2 = False
+b2 = False
+a1 = False
+b1 = False
+a0 = False
+b0 = False
+ci = False
+A0.set_state(a0)
+B0.set_state(b0)
+A1.set_state(a1)
+B1.set_state(b1)
+A2.set_state(a2)
+B2.set_state(b2)
+A3.set_state(a3)
+B3.set_state(b3)
+Ci.set_state(ci)
+four_bits_adder.process()
+s0 = S0.is_state()
+s1 = S1.is_state()
+s2 = S2.is_state()
+s3 = S3.is_state()
+co = Co.is_state()
+print('{} + {} + {} + {} + {} + {} + {} + {} + {} = {} {} {} {}, {}'.format(a3, b3, a2, b2, a1, b1, a0, b0, ci, s3, s2, s1, s0, co))
+print(Ci.is_state(), inputCbitAdder1.is_state())
+print('{} {} {} {}'.format(outputCbitAdder1.is_state(), outputCbitAdder2.is_state(), outputCbitAdder3.is_state(), outputCbitAdder4.is_state()))
+"""
+print("\t Four bit loader testing:")
+for (a3, b3, a2, b2, a1, b1, a0, b0, ci), exp_s, exp_co in zip(inputs, expected_S, expected_Co):
+    A0.set_state(a0)
+    B0.set_state(b0)
+    A1.set_state(a1)
+    B1.set_state(b1)
+    A2.set_state(a2)
+    B2.set_state(b2)
+    A3.set_state(a3)
+    B3.set_state(b3)
+    Ci.set_state(ci)
+    four_bits_adder.process()
+    s0 = S0.is_state()
+    s1 = S1.is_state()
+    s2 = S2.is_state()
+    s3 = S3.is_state()
+    co = Co.is_state()
+    print('{} + {} + {} + {} + {} + {} + {} + {} + {} = {} {} {} {}, {}'.format(a3, b3, a2, b2, a1, b1, a0, b0, ci, s3, s2, s1, s0, co))
+
+
+    #assert s == exp_s
+    #assert co == exp_co
+
+four_bits_adder_1 = deepcopy(four_bits_adder)
+four_bits_adder_1.name = 'four_bits_adder_1'
+four_bits_adder_2 = deepcopy(four_bits_adder)
+four_bits_adder_
