@@ -443,4 +443,44 @@ Connection(outputS1fourAdder2, Se5)
 Connection(outputS2fourAdder2, Se6)
 Connection(outputS3fourAdder2, Se7)
 
-Connection(outputCfourAdder2, Co)
+Connection(outputCfourAdder2, Ceo)
+
+inputs = []
+
+for x in range(131072):
+    n = [x//65536%2, x//32768%2, x//16383%2, x//8192%2, x//4096%2, x//2048%2, x//1024%2 ,x//512%2, x//256%2, x//128%2, x//64%2, x//32%2, x//16%2, x//8%2, x//4%2, x//2%2 ,x%2]
+    tf = [True if v == 1 else False for v in n]
+    inputs.append(tf)
+
+    
+print("\t Eight bit loader testing:")
+for (b7, b6, b5, b4, b3, b2, b1, b0, a7, a6, a5, a4, a3, a2, a1, a0, ci) in inputs:
+    Ae0.set_state(a0)
+    Ae1.set_state(a1)
+    Ae2.set_state(a2)
+    Ae3.set_state(a3)
+    Ae4.set_state(a4)
+    Ae5.set_state(a5)
+    Ae6.set_state(a6)
+    Ae7.set_state(a7)
+    Be0.set_state(b0)
+    Be1.set_state(b1)
+    Be2.set_state(b2)
+    Be3.set_state(b3)
+    Be4.set_state(b4)
+    Be5.set_state(b5)
+    Be6.set_state(b6)
+    Be7.set_state(b7)
+    Cei.set_state(ci)
+    
+    eight_bits_adder.process()
+    s0 = Se0.is_state()
+    s1 = Se1.is_state()
+    s2 = Se2.is_state()
+    s3 = Se3.is_state()
+    s4 = Se4.is_state()
+    s5 = Se5.is_state()
+    s6 = Se6.is_state()
+    s7 = Se7.is_state()
+    co = Ceo.is_state()
+    print('{} + {} + {} + {} + {} + {} + {} + {} + {} + {} + {} + {} + {} + {} + {} + {} + {} = {} {} {} {} {} {} {} {}, {}'.format(b7, b6, b5, b4, b3, b2, b1, b0, a7, a6, a5, a4, a3, a2, a1, a0, ci, s7, s6, s5, s4, s3, s2, s1, s0, co))
