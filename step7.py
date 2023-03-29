@@ -1,6 +1,36 @@
 from abc import ABC
 
 
+def disconnect(circuit, fromPin, toPin):
+    found = False
+    for pin in circuit.inputs:
+        if pin.name == fromPin:
+            for observer in pin.observers:
+                if observer.name == toPin:
+                    pin.remove_observer(observer)
+                    print("removed {}, from circuit {}".format(toPin, circuit.name))
+                    return True
+    
+    for pin in circuit.outputs:
+        if pin.name == fromPin:
+            for observer in pin.observers:
+                if observer.name == toPin:
+                    pin.remove(observer)
+                    print("removed {}, from circuit {}".format(toPin, circuit.name))
+                    return True
+    
+    if isinstance(circuit, Component):
+        i = 0
+        while i < len(circuit.circuits) and not found:
+            found = disconnect(circuit.circuits[i], fromPin, toPin)
+            i += 1
+        return found
+    else:
+        return False
+
+        
+
+
 class Circuit(ABC):
     def __init__(self, name, num_inputs, num_outputs):
         self.name = name
@@ -56,6 +86,7 @@ class Component(Circuit):
 
     def add_circuit(self, circuit):
         self.circuits.append(circuit)
+        self.connections.append(circuit.name)
 
     def process(self):
         for circuit in self.circuits:
@@ -71,8 +102,7 @@ class Observable(ABC):
         self.observers.append(observer)
 
     def remove_observer(self, observer):
-        # TODO
-        pass
+        self.observers.remove(observer)
 
     def notify_observers(self, an_object=None):
         for obs in self.observers:
@@ -106,7 +136,7 @@ class Pin(Observable, Observer):
 class Connection:
     def __init__(self, pin_from, pin_to):
         pin_from.add_observer(pin_to)
-
+        
 
 xor1 = Component('xor1', 2, 1)
 or1 = Or('or1')
@@ -452,7 +482,8 @@ for x in range(131072):
     tf = [True if v == 1 else False for v in n]
     inputs.append(tf)
 
-    
+print(disconnect(eight_bits_adder, "input 1 of 8bitsAdder", "input 1 of 4bitsAdder"))
+
 print("\t Eight bit loader testing:")
 for (b7, b6, b5, b4, b3, b2, b1, b0, a7, a6, a5, a4, a3, a2, a1, a0, ci) in inputs:
     Ae0.set_state(a0)
