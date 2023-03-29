@@ -482,7 +482,7 @@ for x in range(131072):
     tf = [True if v == 1 else False for v in n]
     inputs.append(tf)
 
-print(disconnect(eight_bits_adder, "input 1 of 8bitsAdder", "input 1 of 4bitsAdder"))
+
 
 print("\t Eight bit loader testing:")
 for (b7, b6, b5, b4, b3, b2, b1, b0, a7, a6, a5, a4, a3, a2, a1, a0, ci) in inputs:
@@ -515,3 +515,7 @@ for (b7, b6, b5, b4, b3, b2, b1, b0, a7, a6, a5, a4, a3, a2, a1, a0, ci) in inpu
     s7 = Se7.is_state()
     co = Ceo.is_state()
     print('{} + {} + {} + {} + {} + {} + {} + {} + {} + {} + {} + {} + {} + {} + {} + {} + {} = {} {} {} {} {} {} {} {}, {}'.format(b7, b6, b5, b4, b3, b2, b1, b0, a7, a6, a5, a4, a3, a2, a1, a0, ci, s7, s6, s5, s4, s3, s2, s1, s0, co))
+
+#Test disconnect
+print(disconnect(eight_bits_adder, "input 4 of 8bitsAdder", "input 1 of 4bitsAdder"))
+print(disconnect(eight_bits_adder, "input 4 of 8bitsAdder", "input 2 of 4bitsAdder"))
